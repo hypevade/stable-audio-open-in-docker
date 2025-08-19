@@ -1,7 +1,8 @@
-FROM docker.io/pytorch/pytorch:2.3.0-cuda12.1-cudnn8-runtime
+FROM pytorch/pytorch:2.1.2-cuda11.8-cudnn8-devel
 
 RUN apt-get update && apt-get install -y \
     libsndfile1 \
+    curl \
     && rm -rf /var/lib/apt/lists/*
 
 ENV CUDA_HOME=/usr/local/cuda
