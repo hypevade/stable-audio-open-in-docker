@@ -1,0 +1,23 @@
+
+services:
+  stable_audio:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: stable-audio-open-gradio
+    ports:
+      - "8000:${SERVER_PORT:-8000}"
+    volumes:
+      - ${HF_CACHE_PATH:-/cache}:/root/.cache/huggingface
+    environment:
+      - HF_TOKEN=${HF_TOKEN}
+      - CUDA_HOME=${CUDA_HOME:-/usr/local/cuda}
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+    stdin_open: true
+    tty: true

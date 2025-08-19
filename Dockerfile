@@ -10,6 +10,6 @@ ENV CUDA_HOME=/usr/local/cuda
 RUN pip install gradio xformers stable_audio_tools
 
 WORKDIR /app
-COPY hello-gradio.py /app
+COPY main.py /app
 
-CMD ["python", "hello-gradio.py"]
+CMD ["python", "main.py"]
