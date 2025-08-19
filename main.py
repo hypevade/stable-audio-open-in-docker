@@ -67,20 +67,14 @@ def get_model_status():
     else:
         return "❌ Model not loaded yet."
 
+
 def generate_audio(prompt, seconds_total=15, steps=50, cfg_scale=7):
-    """
-    Optimized audio generation function
-    """
     global model_ready
-    
+
     # Check if model is ready
     if not model_ready:
         return None, "❌ Model is still loading. Please wait a moment and try again."
-    
-    # Optimized default parameters for fast generation
-    if seconds_total > 20:
-        print("Warning: Long audio generation (>20s) may be slow. Consider shorter duration for faster results.")
-    
+
     # Set up text and timing conditioning
     conditioning = [{
         "prompt": prompt,
@@ -107,24 +101,29 @@ def generate_audio(prompt, seconds_total=15, steps=50, cfg_scale=7):
 
         # Optimized audio processing
         output = rearrange(output, "b d n -> d (b n)")
-        
+
+        # FIX: Trim audio to requested duration
+        target_samples = int(seconds_total * sample_rate)
+        if output.shape[1] > target_samples:
+            output = output[:, :target_samples]
+
         # Fast normalization
         max_val = torch.max(torch.abs(output))
         if max_val > 0:
             output = output.div(max_val).clamp(-1, 1)
-        
+
         # Convert to int16
         output = (output * 32767).to(torch.int16).cpu()
 
         # Generate filename
         unique_filename = f"output_{uuid.uuid4().hex}.wav"
-        
+
         # Save
         torchaudio.save(unique_filename, output, sample_rate)
         print(f"Audio saved: {unique_filename}")
-        
+
         return unique_filename, "✅ Audio generated successfully!"
-        
+
     except Exception as e:
         return None, f"❌ Error generating audio: {str(e)}"
 
@@ -133,8 +132,8 @@ model_thread = threading.Thread(target=load_model_in_background, daemon=True)
 model_thread.start()
 
 # Setting up the Gradio Interface
-with gr.Blocks(title="Stable Audio Generator - Optimized Version") as demo:
-    gr.Markdown("# 🎵 Stable Audio Generator - Optimized Version")
+with gr.Blocks(title="Stable Audio Generator") as demo:
+    gr.Markdown("# 🎵 Stable Audio Generator")
     gr.Markdown("Fast audio generation using Stable Audio Open 1.0. For best speed: use 15s duration and 50 steps.")
     
     # Model status
