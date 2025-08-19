@@ -1,0 +1,3 @@
+gradio
+xformers
+stable_audio_tools

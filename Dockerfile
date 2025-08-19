@@ -7,8 +7,11 @@ RUN apt-get update && apt-get install -y \
 
 ENV CUDA_HOME=/usr/local/cuda
 
+# Copy requirements first for better layer caching
+COPY requirements.txt /tmp/requirements.txt
+
 # Install Python dependencies in a single layer
-RUN pip install gradio xformers stable_audio_tools
+RUN pip install -r /tmp/requirements.txt
 
 WORKDIR /app
 COPY main.py /app
