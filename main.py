@@ -175,11 +175,9 @@ with gr.Blocks(title="Stable Audio Generator - Optimized Version") as demo:
     # Examples
     gr.Examples(
         examples=[
-            ["Create a serene soundscape of a quiet beach at sunset.", 15, 50, 7],
-            ["Generate an energetic and bustling city street scene with distant traffic and close conversations.", 15, 50, 7],
-            ["Simulate a forest ambiance with birds chirping and wind rustling through the leaves.", 20, 60, 7],
-            ["Recreate a gentle rainfall with distant thunder.", 15, 50, 7],
-            ["Imagine a jazz cafe environment with soft music and ambient chatter.", 15, 50, 7],
+            ["Deep ambient focus music with rich low-end textures and evolving bass drones. Soft atmospheric layers, slow harmonic shifts, subtle sub-bass pulses, analog warmth, filtered noise. Inspired by early morning stillness and internal reflection. No melody, no vocals. Smooth, immersive, and grounding. Tempo: 60 BPM. Ideal for deep concentration, introspection, and flow state.", 15, 150, 13],
+            ["A chilled, atmospheric lo-fi beat with warm vinyl crackle, soft piano chords, and mellow synth textures. Slow tempo. Dreamy and nostalgic mood. Subtle tape hiss and background ambiance. Suitable for studying, relaxing, or rainy late-night scenes.", 47, 180, 9],
+            ["Recreate a gentle rainfall with distant thunder.", 15, 100, 7],
             ["Rock beat played in a treated studio, session drumming on an acoustic kit.", 15, 50, 7]
         ],
         inputs=[prompt_input, duration_slider, steps_slider, cfg_slider]
